@@ -1,1 +1,1 @@
-Dummy file to create a folder
+This folder contains the output of the program after execution.
