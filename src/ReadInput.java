@@ -124,7 +124,7 @@ public class ReadInput {
         writer = new BufferedWriter(new FileWriter("../output/medianvals_by_date.txt"));
         String path = System.getProperty("user.dir");
         path = path.replace("jars", "");
-        System.out.println(path);
+        //System.out.println(path);
 
         for(DateRecipient record:detailsToSort)
         {
