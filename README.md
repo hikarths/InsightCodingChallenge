@@ -22,6 +22,6 @@ Java 1.8 (Only works in version 1.8)
 
 ## Run Instructions
 
-Place file itcont.txt that contains the test dataset in the input folder
-Execute the run.sh(Please make sure that it has the permission to be executed) to get the output medianvals_by_date.txt and medianvals_by_zip.txt which can be found in the output folder
-Execute the run_tests.sh(Please make sure that it has the permission to be executed) inside insight_testsuite folder to run the code against the test cases that are written in the tests folder
+- Place file itcont.txt that contains the test dataset in the input folder
+- Execute the run.sh(Please make sure that it has the permission to be executed) to get the output medianvals_by_date.txt and medianvals_by_zip.txt which can be found in the output folder
+- Execute the run_tests.sh(Please make sure that it has the permission to be executed) inside insight_testsuite folder to run the code against the test cases that are written in the tests folder
