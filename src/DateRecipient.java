@@ -1,3 +1,6 @@
+//Class that is used for saving the TRANSACTION_DT & CMTE_ID pair along with its getters and setters
+
+//hashCode() and equals() methods are implemented so that the class can be used as a key for a HashMap
 
 public class DateRecipient {
 	private String cmteId;

@@ -1,4 +1,5 @@
 import java.util.Comparator;
+//Comparator that is to be used for sorting CMTE_ID and TRANSACTION_DT
 class DateRecepientComp implements Comparator<DateRecipient>{
  
     @Override
@@ -18,7 +19,7 @@ class DateRecepientComp implements Comparator<DateRecipient>{
                String x2 = ((DateRecipient) o2).getDate();
                String s1 = x1.substring(5,8)+x1.substring(0,2)+x1.substring(2,4);
                String s2 = x2.substring(5,8)+x2.substring(0,2)+x2.substring(2,4);
-               return x1.compareTo(x2);
+               return s1.compareTo(s2);
             }
           }
 }   

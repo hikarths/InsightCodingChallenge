@@ -27,6 +27,7 @@ public class ReadInput {
             dateDetails = new HashMap<DateRecipient,valuesOfContributions>();
             while((line = bufferedReader.readLine()) != null) 
             {
+                //Parse Input
             	String fields[] = line.split("\\|");
             	String cmptId = fields[0];
                 String zipCode = null;
@@ -38,10 +39,11 @@ public class ReadInput {
             	donationAmount = Float.valueOf(fields[14]);
             	String otherField = fields[15];
             	writer.write("");
+                //Input Validation
             	if (otherField.length()==0&&fields[14]!=null&&fields[14].length()>0&&cmptId.length()!=0&&zipCode!=null&&zipCode.length()==5)
             	{
             		ZipRecipient newRecord = new ZipRecipient(cmptId, zipCode);
-            		
+            		//Computing the output for medianvals_by_zip.txt
             		if(!zipCodeDetails.containsKey(newRecord))
             		{
                         RunningValuesOfContributions values = new RunningValuesOfContributions(1,donationAmount);
@@ -66,6 +68,9 @@ public class ReadInput {
             			
             		}
                 }
+                
+                //Saving the values of donations that is to be used for finding the values for medianvals_by_date.txt
+
                 if(otherField.length()==0&&fields[14]!=null&&fields[14].length()>0&&cmptId.length()!=0&&date.length()==8)
                 {
                     DateRecipient newEntry = new DateRecipient(cmptId, date);
@@ -105,6 +110,7 @@ public class ReadInput {
         writeMedialValsByDate();
 	}
 
+    //Function that is used to compute the output for medianvals_by_date.txt
     static void writeMedialValsByDate(){
         BufferedWriter writer = null;
         try

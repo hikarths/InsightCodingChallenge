@@ -1,7 +1,7 @@
 import java.util.TreeSet;
 import java.util.ArrayList;
 
-
+//Class that is used to store the count of donations, total of donations and the list of all donations so far along with its getters and setters
 public class valuesOfContributions {
 	private int count;
     private float total;
