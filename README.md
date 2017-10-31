@@ -4,7 +4,8 @@
 
 ### -medianvals_by_zip.txt
 For every record that is parsed, the current median for the CMTE_ID & ZIP_CODE pair is calculated and is printed into the file.  
-A HashMap is used to store the values that are seen so far. They key and value pair of the HashMap created are custom class objects that are created.   
+A HashMap is used to store the values that are seen so far.  
+They key and value pair of the HashMap created are custom class objects that are created.   
 The key is the CMTE_ID & ZIP_CODE pair.  
 The values is a class that stores count of donations, total of donations so far, median and two heaps to store all the values of donations.  
 Every time a new donation value is parsed, the corresponding new median has to be computed.   
