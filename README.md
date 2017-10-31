@@ -18,7 +18,7 @@ It is achieved by removing top most one value from one of the heaps and putting 
 This file output is calculated only after the input is read completely.  
 When the input is read line by line, the details are stored in a HashMap similar to the previous method.  
 The key is the CMTE_ID & TRANSACTION_DT pair.  
-The values is a class that stores donations, total of donations so far and all the values of donations.  
+The values is a class that stores donations, total of donations and values of donations.  
 When the input is being read a TreeSet that has the same key used in the HashMap mentioned previously is used.  
 The comparator is written so that the order will be sorted by CMTE_ID and then chronologically by TRANSACTION_DT.    
 For each value in the TreeSet, the list of donations is retrieved and the median is computed by sorting the ArrayList of donation values and stored.
