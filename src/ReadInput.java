@@ -15,34 +15,30 @@ public class ReadInput {
     static HashMap<DateRecipient,valuesOfContributions> dateDetails;
     static TreeSet<DateRecipient> detailsToSort;
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		String fileName = "../input/itcont.txt";
         String line = null;
         try 
         {
             FileReader fileReader =  new FileReader(fileName);
-	    
             BufferedReader bufferedReader =  new BufferedReader(fileReader);
-	    
-	    
             BufferedWriter writer = new BufferedWriter(new FileWriter("../output/medianvals_by_zip.txt"));
             HashMap<ZipRecipient,RunningValuesOfContributions> zipCodeDetails = new HashMap<ZipRecipient,RunningValuesOfContributions>();
             detailsToSort = new TreeSet<DateRecipient>(new DateRecepientComp());
             dateDetails = new HashMap<DateRecipient,valuesOfContributions>();
             while((line = bufferedReader.readLine()) != null) 
             {
-                //System.out.println(line);
             	String fields[] = line.split("\\|");
-            	//System.out.print(fields.length+" ");
             	String cmptId = fields[0];
-                //System.out.println(fields[10]);
-            	String zipCode = fields[10].substring(0, 5);
-                //System.out.println(zipCode);
+                String zipCode = null;
+            	if(fields[10]!=null&&fields[10].length()>=5)
+                    zipCode = fields[10].substring(0, 5);
             	String date = fields[13];
-            	float donationAmount = Float.valueOf(fields[14]);
+                float donationAmount=0;
+                if(fields[14]!=null&&fields[14].length()>0)
+            	donationAmount = Float.valueOf(fields[14]);
             	String otherField = fields[15];
             	writer.write("");
-            	if (otherField.length()==0)
+            	if (otherField.length()==0&&fields[14]!=null&&fields[14].length()>0&&cmptId.length()!=0&&zipCode!=null&&zipCode.length()==5)
             	{
             		ZipRecipient newRecord = new ZipRecipient(cmptId, zipCode);
             		
@@ -69,6 +65,9 @@ public class ReadInput {
             			writer.write("\n");
             			
             		}
+                }
+                if(otherField.length()==0&&fields[14]!=null&&fields[14].length()>0&&cmptId.length()!=0&&date.length()==8)
+                {
                     DateRecipient newEntry = new DateRecipient(cmptId, date);
                     if(!dateDetails.containsKey(newEntry))
                     {
@@ -84,17 +83,13 @@ public class ReadInput {
                         int count = val.getCount();
                         ++count;
                         float total = val.getTotal();
-                        //System.out.println(total);
                         total+=donationAmount;
                         ArrayList<Float> contributions = val.getContributions();
                         contributions.add(donationAmount);
                         dateDetails.put(newEntry,new valuesOfContributions(count,total,contributions));
                     }
                     detailsToSort.add(newEntry);
-            	}
-                
-
-            		
+            	}	
             }   
             writer.close();
             bufferedReader.close();         
@@ -112,36 +107,31 @@ public class ReadInput {
 
     static void writeMedialValsByDate(){
         BufferedWriter writer = null;
-        try{
-        writer = new BufferedWriter(new FileWriter("../output/medianvals_by_date.txt"));
-        //String path = System.getProperty("user.dir");
-        //path = path.replace("jars", "");
-        //System.out.println(path);
-
-        for(DateRecipient record:detailsToSort)
+        try
         {
-            valuesOfContributions val = dateDetails.get(record);
-            ArrayList<Float> details = new ArrayList<>();
-            int count = val.getCount();
-            float total = val.getTotal();
-            ArrayList<Float> values = new ArrayList<>();
-            values = val.getContributions();
-            Collections.sort(values);
-            float median = 0;
-            if(count%2==1)
-                median = values.get(count/2+1);
-            else
-                median = (int)(Math.ceil((Double.valueOf(values.get(count/2-1)+values.get(count/2))/2)));
-            writer.append(record.getId()+"|"+record.getDate()+"|"+(int)median+"|"+count+"|"+(int)total);
-            writer.append("\n");
+            writer = new BufferedWriter(new FileWriter("../output/medianvals_by_date.txt"));
+            for(DateRecipient record:detailsToSort)
+            {
+                valuesOfContributions val = dateDetails.get(record);
+                ArrayList<Float> details = new ArrayList<>();
+                int count = val.getCount();
+                float total = val.getTotal();
+                ArrayList<Float> values = new ArrayList<>();
+                values = val.getContributions();
+                Collections.sort(values);
+                float median = 0;
+                if(count%2==1)
+                    median = values.get(count/2);
+                else
+                    median = (int)(Math.ceil((Double.valueOf(values.get(count/2-1)+values.get(count/2))/2)));
+                writer.append(record.getId()+"|"+record.getDate()+"|"+(int)median+"|"+count+"|"+(int)total);
+                writer.append("\n");
+            }
+            writer.close();
         }
-         writer.close();
-    }
-    catch(IOException ex) 
+        catch(IOException ex) 
         {
             System.out.println("Error reading file '" + "'");                  
         }
-       
     }
-
 }
