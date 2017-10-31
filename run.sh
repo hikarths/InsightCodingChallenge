@@ -4,5 +4,5 @@
 #
 #python ./src/find_political_donors.py ./input/itcont.txt ./output/medianvals_by_zip.txt ./output/medianvals_by_date.txt
 cd src
-javac ReadInput.java ZipRecipient.java DateRecipient.java DateRecepientComp.java valuesOfContributions.java
+javac ReadInput.java ZipRecipient.java DateRecipient.java DateRecepientComp.java valuesOfContributions.java RunningValuesOfContributions.java
 java ReadInput

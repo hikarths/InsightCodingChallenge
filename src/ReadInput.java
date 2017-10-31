@@ -26,7 +26,7 @@ public class ReadInput {
 	    
 	    
             BufferedWriter writer = new BufferedWriter(new FileWriter("../output/medianvals_by_zip.txt"));
-            HashMap<ZipRecipient,valuesOfContributions> zipCodeDetails = new HashMap<ZipRecipient,valuesOfContributions>();
+            HashMap<ZipRecipient,RunningValuesOfContributions> zipCodeDetails = new HashMap<ZipRecipient,RunningValuesOfContributions>();
             detailsToSort = new TreeSet<DateRecipient>(new DateRecepientComp());
             dateDetails = new HashMap<DateRecipient,valuesOfContributions>();
             while((line = bufferedReader.readLine()) != null) 
@@ -48,32 +48,24 @@ public class ReadInput {
             		
             		if(!zipCodeDetails.containsKey(newRecord))
             		{
-                        ArrayList<Float> values = new ArrayList<>();
-            			values.add(donationAmount);
-            			//System.out.println(donationAmount);
-            			zipCodeDetails.put(newRecord, new valuesOfContributions(1,donationAmount,values));
+                        RunningValuesOfContributions values = new RunningValuesOfContributions(1,donationAmount);
+                        values.insert(donationAmount);
+            			zipCodeDetails.put(newRecord, values);
             			writer.write(cmptId+"|"+zipCode+"|"+(int)donationAmount+"|"+"1"+"|"+(int)donationAmount);
             			writer.write("\n");
             		}
             		else
             		{
-                        valuesOfContributions val = zipCodeDetails.get(newRecord);
+                        RunningValuesOfContributions val = zipCodeDetails.get(newRecord);
             			int count = val.getCount();
             			++count;
+                        val.setCount(count);
             			float total = val.getTotal();
             			total+=donationAmount;
-            			ArrayList<Float> contrib = val.getContributions();
-                        contrib.add(donationAmount);
-                        Collections.sort(contrib);
-            			float median = 0;
-            			if(count%2==1)
-            				median = contrib.get(count/2+1);
-            			else
-            				median = (int)(Math.ceil((Double.valueOf(contrib.get(count/2)+contrib.get(count/2-1))/2)));
-            			//System.out.println(median);
-            			//System.out.println(total);
-            			zipCodeDetails.put(newRecord, new valuesOfContributions(count,total,contrib));
-            			writer.write(cmptId+"|"+zipCode+"|"+(int)median+"|"+count+"|"+(int)total);
+                        val.setTotal(total);
+            			val.insert(donationAmount);
+            			zipCodeDetails.put(newRecord, val);
+            			writer.write(cmptId+"|"+zipCode+"|"+(int)val.getMedian()+"|"+val.getCount()+"|"+(int)val.getTotal());
             			writer.write("\n");
             			
             		}
@@ -122,8 +114,8 @@ public class ReadInput {
         BufferedWriter writer = null;
         try{
         writer = new BufferedWriter(new FileWriter("../output/medianvals_by_date.txt"));
-        String path = System.getProperty("user.dir");
-        path = path.replace("jars", "");
+        //String path = System.getProperty("user.dir");
+        //path = path.replace("jars", "");
         //System.out.println(path);
 
         for(DateRecipient record:detailsToSort)
